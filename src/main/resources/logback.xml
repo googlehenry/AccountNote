@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration scan="true" scanPeriod="60 second" debug="false">
+
+	<timestamp key="byDay" datePattern="yyyy-MM-dd" />
+	<timestamp key="byHour" datePattern="yyyyMMdd_HH" />
+	<timestamp key="byMinute" datePattern="yyyyMMdd'T'HH:mm" />
+	<timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss" />
+
+	<property name="pattern"
+		value="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n" />
+	<property name="charsetEncoding" value="UTF-8" />
+	
+	<contextName>microService-provider-customer</contextName>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${pattern}</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">  
+	    <file>D:/microservice-workspace/microservice-provider-account-8101/src/main/resources/logs/accountSerivceProvider.log</file>  
+	    <append>true</append>  
+	    <encoder>  
+	    	<pattern>${pattern}</pattern>  
+	    </encoder>  
+	</appender>
+	
+	<logger name="com.demo.api.customer" level="DEBUG" additivity="false">  
+   		<appender-ref ref="FILE"/>  
+  	</logger> 
+	
+	<root level="INFO">
+		<appender-ref ref="STDOUT" /> 
+	</root>
+</configuration>
