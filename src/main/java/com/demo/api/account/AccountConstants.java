@@ -1,7 +1,7 @@
 package com.demo.api.account;
 
 public class AccountConstants {
-	// status code
+	// STATUS CODE
 	public static int OK = 200;
 	public static int CREATED = 201;
 	public static int NO_CONTENT = 204;
@@ -10,6 +10,5 @@ public class AccountConstants {
 	public static int FORBIDDEN = 403;
 	public static int NOT_FOUND = 404;
 	public static int INTERNAL_SERVER_ERROR = 500;
-	
 	
 }
