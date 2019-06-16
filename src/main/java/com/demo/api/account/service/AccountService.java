@@ -1,11 +1,10 @@
 package com.demo.api.account.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.demo.api.account.entity.Account;
 import com.demo.api.account.vo.AccountVO;
+import com.demo.api.account.vo.ChartVO;
 
 @Service
 public interface AccountService {
@@ -17,5 +16,6 @@ public interface AccountService {
 
 	public AccountVO getAccountsByCustomerId(String customerId);
 
-	public List<Account> getAccountsByDate(String customerId, String from, String to);
+	public ChartVO getChartItems(String customerId,int number,String accountType,String dateType);
+	
 }

@@ -24,5 +24,6 @@ public class Category {
 	private int Code;
 	private String Description;
 	private String imagePath;
+	private String type;
 
 }
