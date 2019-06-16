@@ -1,7 +1,5 @@
 package com.demo.api.account.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,11 @@ import com.demo.api.account.AccountConstants;
 import com.demo.api.account.dto.Response;
 import com.demo.api.account.entity.Account;
 import com.demo.api.account.service.AccountService;
+import com.demo.api.account.service.CategoryService;
+import com.demo.api.account.viewhelper.AccountUtil;
 import com.demo.api.account.vo.AccountVO;
+import com.demo.api.account.vo.ChartVO;
+import com.demo.api.account.vo.Item;
 
 @RestController
 @RequestMapping("/v1/esc/")
@@ -27,30 +29,39 @@ public class AccountController {
 	@Autowired
 	AccountService accountService;
 
+	@Autowired
+	CategoryService categoryService;
+
 	@GetMapping("/accounts/{id}")
 	public Response getAccountById(@PathVariable("id") String id) {
 		Account account = accountService.getAccountById(id);
 		return new Response(AccountConstants.OK, account);
 	}
-	
+
 	@GetMapping("/itemsByCustomerId")
 	public Response getAccountByUserId(@RequestParam("customerId") String customerId) {
 		AccountVO accountVO = accountService.getAccountsByCustomerId(customerId);
 		return new Response(AccountConstants.OK, accountVO);
 	}
 	
-	@GetMapping("/items")
-	public Response getAccountByDate(@RequestParam("userId") String userId,
-									@RequestParam("from") String from,
-									@RequestParam("to") String to) {
-		List<Account> accounts = accountService.getAccountsByDate(userId, from, to);
-		return new Response(AccountConstants.OK, accounts);
-	}
+	// http://47.102.197.196:1201/v1/esc/chartItems?customerId=123&number=24&accountType=out&dateType=week
+	@GetMapping("/chartItems")
+	public Response getChartPoints(@RequestParam("customerId") String customerId, 
+				@RequestParam("number") int number,
+				@RequestParam("accountType") String accountType,
+				@RequestParam("dateType") String dateType) {
+			ChartVO chartVo = accountService.getChartItems(customerId, number,accountType,dateType);
+			return new Response(AccountConstants.OK, chartVo);
+		}
 
-	@PostMapping("/accountToSave")
-	public Response save(@RequestBody Account account) {
-		log.debug(account.toString());
-		Account accountSaved = accountService.save(account);
+	@PostMapping("/{customerId}/account")
+	public Response save(@PathVariable String customerId, @RequestBody Item item) {
+		log.debug(item.toString());
+		Account account = AccountUtil.generateAccount(item, customerId,categoryService);
+		Account accountSaved = null;
+		if (item != null) {
+			accountSaved = accountService.save(account);
+		}
 		return new Response(AccountConstants.CREATED, accountSaved);
 	}
 

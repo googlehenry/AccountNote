@@ -1,8 +1,6 @@
 package com.demo.api.account.vo;
 
-import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,11 +11,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class AccountVO {
-	private AccountSummary accountSummary;
-	private List<ParentItem> items;
+public class ParentItem {
+	private String date;
+	private List<Item> childItem;
 }
-
-
-
-

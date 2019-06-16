@@ -28,11 +28,20 @@ public class Account {
 	private int id;
 	private Date createDay;
 	private Time createTime;
-	private String type;
 	private String amount;
 	private String customerId;
 
 	@ManyToOne
 	private Category category;
+
+	public Account(Date createDay, Time createTime, String amount, String customerId, Category category) {
+		this.createDay = createDay;
+		this.createTime = createTime;
+		this.amount = amount;
+		this.customerId = customerId;
+		this.category = category;
+	}
+	
+	
 
 }

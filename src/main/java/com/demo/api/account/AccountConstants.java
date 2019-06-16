@@ -12,4 +12,12 @@ public class AccountConstants {
 	public static int UNKOWN_ERROR=405;
 	public static int INTERNAL_SERVER_ERROR = 500;
 	
+	
+    public static final String DATE_TYPE_WEEK = "week";
+    public static final String DATE_TYPE_MONTH = "month";
+    public static final String DATE_TYPE_YEAR = "year";
+
+    public static final String  ACCOUNT_IN = "in";
+    public static final String ACCOUNT_OUT = "out";
+	
 }
