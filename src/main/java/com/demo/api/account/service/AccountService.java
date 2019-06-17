@@ -12,7 +12,7 @@ public interface AccountService {
 
 	public Account save(Account account);
 
-	public String delete(Account account);
+	public String delete(int id);
 
 	public AccountVO getAccountsByCustomerId(String customerId);
 

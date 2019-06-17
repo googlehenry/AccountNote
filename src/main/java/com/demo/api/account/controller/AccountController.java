@@ -43,21 +43,19 @@ public class AccountController {
 		AccountVO accountVO = accountService.getAccountsByCustomerId(customerId);
 		return new Response(AccountConstants.OK, accountVO);
 	}
-	
+
 	// http://47.102.197.196:1201/v1/esc/chartItems?customerId=123&number=24&accountType=out&dateType=week
 	@GetMapping("/chartItems")
-	public Response getChartPoints(@RequestParam("customerId") String customerId, 
-				@RequestParam("number") int number,
-				@RequestParam("accountType") String accountType,
-				@RequestParam("dateType") String dateType) {
-			ChartVO chartVo = accountService.getChartItems(customerId, number,accountType,dateType);
-			return new Response(AccountConstants.OK, chartVo);
-		}
+	public Response getChartPoints(@RequestParam("customerId") String customerId, @RequestParam("number") int number,
+			@RequestParam("accountType") String accountType, @RequestParam("dateType") String dateType) {
+		ChartVO chartVo = accountService.getChartItems(customerId, number, accountType, dateType);
+		return new Response(AccountConstants.OK, chartVo);
+	}
 
 	@PostMapping("/{customerId}/account")
 	public Response save(@PathVariable String customerId, @RequestBody Item item) {
 		log.debug(item.toString());
-		Account account = AccountUtil.generateAccount(item, customerId,categoryService);
+		Account account = AccountUtil.generateAccount(item, customerId, categoryService);
 		Account accountSaved = null;
 		if (item != null) {
 			accountSaved = accountService.save(account);
@@ -65,9 +63,20 @@ public class AccountController {
 		return new Response(AccountConstants.CREATED, accountSaved);
 	}
 
-	@DeleteMapping("/accountToDelete")
-	public Response delete(@RequestBody Account account) {
-		String msg = accountService.delete(account);
+	@PostMapping("/accountToDelete/{id}")
+	public Response delete(@PathVariable String id) {
+		String msg = "";
+		try {
+			if (id != null && !"".equals(id)) {
+				int accountId = Integer.valueOf(id);
+				msg = accountService.delete(accountId);
+			} else {
+				msg = "Item id cannot be null";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg = "delete failed";
+		}
 		return new Response(AccountConstants.OK, msg);
 	}
 

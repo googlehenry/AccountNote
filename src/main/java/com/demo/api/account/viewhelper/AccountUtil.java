@@ -71,8 +71,14 @@ public class AccountUtil {
 		try {
 			java.util.Date date = dateFormat.parse(item.getCreateDay());
 			java.util.Date time = timeFormat.parse(item.getCreateTime());
-			account = new Account(new java.sql.Date(date.getTime()), new java.sql.Time(time.getTime()),
+			String itemId=item.getItemId();
+			if(itemId!=null && !"".equals(itemId)){
+				account = new Account(Integer.valueOf(itemId), new java.sql.Date(date.getTime()), new java.sql.Time(time.getTime()),
+						item.getAmount(), customerId, category);
+			}else{
+				account = new Account(new java.sql.Date(date.getTime()), new java.sql.Time(time.getTime()),
 					item.getAmount(), customerId, category);
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

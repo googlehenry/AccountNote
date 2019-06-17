@@ -38,8 +38,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public String delete(Account account) {
-		accountRepository.delete(account);
+	public String delete(int id) {
+		accountRepository.deleteById(id);
 		return "delete successfully";
 	}
 
@@ -55,22 +55,20 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public ChartVO getChartItems(String customeId, int number, String accountType,String dateType) {
-		ChartVO chartVo=new ChartVO();
-		
-		List<Account> accounts=new ArrayList<Account>();
-		if(AccountConstants.DATE_TYPE_YEAR.equals(dateType)){
+	public ChartVO getChartItems(String customeId, int number, String accountType, String dateType) {
+		ChartVO chartVo = new ChartVO();
+
+		List<Account> accounts = new ArrayList<Account>();
+		if (AccountConstants.DATE_TYPE_YEAR.equals(dateType)) {
 			accounts = accountRepository.findAccountByCustomerId(customeId);
-			chartVo = AccountUtil.generateYearChartVO(accounts,accountType);
-		}else {
-			Duration duration=DateUtil.getDuration(dateType, number);
+			chartVo = AccountUtil.generateYearChartVO(accounts, accountType);
+		} else {
+			Duration duration = DateUtil.getDuration(dateType, number);
 			accounts = accountRepository.findAccountByDate(customeId, duration.getFrom(), duration.getTo());
-			chartVo = AccountUtil.generateMonthWeekChartVO(accounts,accountType,duration);
+			chartVo = AccountUtil.generateMonthWeekChartVO(accounts, accountType, duration);
 		}
-		
+
 		return chartVo;
 	}
-	
-	
 
 }
